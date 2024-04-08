@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disease Spread Simulation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <div id="simulation">
+        <!-- p5.js canvas will go here -->
+    </div>
+
+    <label for="infection-rate">Infection Rate:</label>
+    <input type="range" id="infection-rate" name="infection-rate" min="0" max="1" step="0.01" value="0.5">
+    <span id="infection-rate-value">0.5</span>
+    <br>
+
+    <label for="recovery-time">Recovery Time:</label>
+    <input type="range" id="recovery-time" name="recovery-time" min="5" max="60" value="30">
+    <span id="recovery-time-value">30</span>
+    <br>
+
+    <label for="num-dots">Number of Individuals:</label>
+    <input type="range" id="num-dots" name="num-dots" min="10" max="500" value="250">
+    <span id="num-dots-value">250</span>
+    <br>
+
+    <label for="infection-distance">Infection Distance:</label>
+    <input type="range" id="infection-distance" name="infection-distance" min="1" max="50" value="10">
+    <span id="infection-distance-value">15</span>
+    <br>
+
+    <button onclick="updateSimulationParameters()">Update Simulation</button>
+    
+    <script src="{{ url_for('static', filename='js/sketch.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+</body>
+</html>
