@@ -1,2 +1,5 @@
 
 .DS_Store
+/infection-simulator/bin
+/infection-simulator/lib
+infection-simulator/pyvenv.cfg
