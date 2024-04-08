@@ -6,6 +6,7 @@ let infection_distance = 15;
 
 let dots = [];
 let infected = [];
+let immune = [];
 let infection_timers = [];
 
 let canvas;
@@ -37,6 +38,11 @@ function initializeSimulation() {
             infected.push(false);
             infection_timers.push(0);
         }
+        if (i == 0) {
+            immune.push(false); // Initially, the infected dot is not immune
+        } else {
+            immune.push(false); // Other dots are also not immune initially
+        }
     }
 }
 
@@ -58,12 +64,13 @@ function draw() {
             if (infection_timers[i] == 0) {
                 dots[i].color = 'blue';
                 infected[i] = false;
+                immune[i] = true;
             }
         }
 
         if (infected[i]) {
             for (let j = 0; j < dots.length; j++) {
-                if (!infected[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
+                if (!infected[j] && !immune[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
                     if (random() < infection_chance) {
                         infected[j] = true;
                         dots[j].color = 'red';
