@@ -62,7 +62,7 @@ function draw() {
         if (infected[i] && infection_timers[i] > 0) {
             infection_timers[i]--;
             if (infection_timers[i] == 0) {
-                dots[i].color = 'blue';
+                dots[i].color = 'green';
                 infected[i] = false;
                 immune[i] = true;
             }
