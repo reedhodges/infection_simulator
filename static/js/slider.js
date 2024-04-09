@@ -3,8 +3,26 @@ function updateSimulationParameters() {
     infection_chance = parseFloat(document.getElementById('infection-rate').value);
     recovery_time = parseInt(document.getElementById('recovery-time').value, 10);
     infection_distance = parseFloat(document.getElementById('infection-distance').value);
-    
+    frame_rate = parseInt(document.getElementById('frame-rate').value, 10);
+    mortality_rate = parseFloat(document.getElementById('mortality-rate').value);
+    resetSimulationState();
     setup();
+}
+
+function resetSimulationState() {
+    dots = [];
+    infected = [];
+    immune = [];
+    dead = [];
+    infection_timers = [];
+}
+
+document.getElementById('mortality-rate').oninput = function() {
+    document.getElementById('mortality-rate-value').textContent = this.value;
+}
+
+document.getElementById('frame-rate').oninput = function() {
+    document.getElementById('frame-rate-value').textContent = this.value;
 }
 
 document.getElementById('num-dots').oninput = function() {

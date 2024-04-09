@@ -2,40 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Disease Spread Simulation</title>
+    <title>Infection Simulator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
 <body>
+    <h1>Infection Simulator</h1>
+    <p>Adjust the disease parameters to see how the simulation changes.</p>
+    <hr>
     <div id="simulation">
         <!-- p5.js canvas will go here -->
     </div>
 
     <table>
         <tr>
-            <td><label for="infection-rate">Infection Rate:</label></td>
-            <td><input type="range" id="infection-rate" name="infection-rate" min="0" max="1" step="0.01" value="0.5"></td>
-            <td><span id="infection-rate-value">0.5</span></td>
-        </tr>
-        <tr>
-            <td><label for="recovery-time">Recovery Time:</label></td>
-            <td><input type="range" id="recovery-time" name="recovery-time" min="5" max="60" value="30"></td>
-            <td><span id="recovery-time-value">30</span></td>
-        </tr>
-        <tr>
             <td><label for="num-dots">Number of Individuals:</label></td>
             <td><input type="range" id="num-dots" name="num-dots" min="10" max="500" value="250"></td>
             <td><span id="num-dots-value">250</span></td>
+        </tr>
+        <tr>
+            <td><label for="infection-rate">Infection Rate:</label></td>
+            <td><input type="range" id="infection-rate" name="infection-rate" min="0" max="1" step="0.01" value="0.5"></td>
+            <td><span id="infection-rate-value">0.5</span></td>
         </tr>
         <tr>
             <td><label for="infection-distance">Infection Distance:</label></td>
             <td><input type="range" id="infection-distance" name="infection-distance" min="1" max="50" value="10"></td>
             <td><span id="infection-distance-value">15</span></td>
         </tr>
+        <tr>
+            <td><label for="mortality-rate">Mortality Rate:</label></td>
+            <td><input type="range" id="mortality-rate" name="mortality-rate" min="0" max="1" step="0.01" value="0.2"></td>
+            <td><span id="mortality-rate-value">0.2</span></td>
+        </tr>
+        <tr>
+            <td><label for="recovery-time">Recovery Time (frames):</label></td>
+            <td><input type="range" id="recovery-time" name="recovery-time" min="60" max="600" value="300"></td>
+            <td><span id="recovery-time-value">300</span></td>
+        </tr>
+        <tr>
+            <td><label for="frame-rate">Simulation Speed (fps):</label></td>
+            <td><input type="range" id="frame-rate" name="frame-rate" min="10" max="120" value="30"></td>
+            <td><span id="frame-rate-value">30</span></td>
+        </tr>
     </table>
 
     <button onclick="updateSimulationParameters()">Update Simulation</button>
-    
+
     <script src="{{ url_for('static', filename='js/sketch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
 </body>

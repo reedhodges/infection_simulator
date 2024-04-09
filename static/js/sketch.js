@@ -1,12 +1,15 @@
 let grid_size = 50;
 let num_dots = 250;
 let infection_chance = 0.5;
-let recovery_time = 30;
+let recovery_time = 300;
 let infection_distance = 15;
+let frame_rate = 30;
+let mortality_rate = 0.2;
 
 let dots = [];
 let infected = [];
 let immune = [];
+let dead = [];
 let infection_timers = [];
 
 let canvas;
@@ -24,6 +27,7 @@ function setup() {
     infection_timers = [];
     
     initializeSimulation();
+    frameRate(frame_rate);
 }
 
 function initializeSimulation() {
@@ -39,9 +43,11 @@ function initializeSimulation() {
             infection_timers.push(0);
         }
         if (i == 0) {
-            immune.push(false); // Initially, the infected dot is not immune
+            immune.push(false);
+            dead.push(false);
         } else {
-            immune.push(false); // Other dots are also not immune initially
+            immune.push(false);
+            dead.push(false);
         }
     }
 }
@@ -49,11 +55,13 @@ function initializeSimulation() {
 function draw() {
     background(220);
     for (let i = 0; i < dots.length; i++) {
-        let movement = createVector(random(-1, 1), random(-1, 1));
-        dots[i].position.add(movement);
+        if (!dead[i]) {
+            let movement = createVector(random(-1, 1), random(-1, 1));
+            dots[i].position.add(movement);
 
-        dots[i].position.x = constrain(dots[i].position.x, 0, width);
-        dots[i].position.y = constrain(dots[i].position.y, 0, height);
+            dots[i].position.x = constrain(dots[i].position.x, 0, width);
+            dots[i].position.y = constrain(dots[i].position.y, 0, height);
+        }
 
         fill(dots[i].color);
         noStroke();
@@ -62,15 +70,20 @@ function draw() {
         if (infected[i] && infection_timers[i] > 0) {
             infection_timers[i]--;
             if (infection_timers[i] == 0) {
-                dots[i].color = 'green';
-                infected[i] = false;
-                immune[i] = true;
+                if (random() < mortality_rate) {
+                    dead[i] = true;
+                    dots[i].color = 'black';
+                } else {
+                    infected[i] = false;
+                    immune[i] = true;
+                    dots[i].color = 'green';
+                }
             }
         }
 
-        if (infected[i]) {
+        if (infected[i] && !dead[i]) {
             for (let j = 0; j < dots.length; j++) {
-                if (!infected[j] && !immune[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
+                if (!infected[j] && !immune[j] && !dead[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
                     if (random() < infection_chance) {
                         infected[j] = true;
                         dots[j].color = 'red';
