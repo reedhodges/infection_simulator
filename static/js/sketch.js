@@ -64,7 +64,12 @@ function initializeSimulation() {
 function updateCounters() {
     let healthyInoculatedCount = 0;
     let healthyNotInoculatedCount = 0;
-    let infectedCount = infected.filter(infected => infected).length;
+    let infectedCount = 0;
+    for (let i = 0; i < infected.length; i++) {
+        if (infected[i] && !dead[i]) {
+            infectedCount++;
+        }
+    }
     let immuneCount = immune.filter(imm => imm).length;
     let deadCount = dead.filter(d => d).length;
 
@@ -84,6 +89,7 @@ function updateCounters() {
     document.getElementById('immune-counter').innerText = immuneCount;
     document.getElementById('dead-counter').innerText = deadCount;
 }
+
 
 
 function draw() {
