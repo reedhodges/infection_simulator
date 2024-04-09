@@ -12,6 +12,7 @@ let dots = [];
 let infected = [];
 let inoculated = [];
 let immune = [];
+let recovered = [];
 let dead = [];
 let infection_timers = [];
 
@@ -29,6 +30,7 @@ function setup() {
     infected = [];
     inoculated = [];
     immune = [];
+    recovered = [];
     dead = [];
     infection_timers = [];
     
@@ -38,9 +40,19 @@ function setup() {
 
 function initializeSimulation() {
     for (let i = 0; i < num_dots; i++) {
-        inoculated.push(random() < inoculation_rate);
-        immune.push(false);
         dead.push(false);  
+
+        if (i == 0) {
+            inoculated.push(false);
+        } else {
+            inoculated.push(random() < inoculation_rate);
+        }
+
+        if (inoculated[i]) {
+            immune.push(random() < inoculation_efficacy);
+        } else {
+            immune.push(false);
+        }
 
         if (i == 0) {
             color = 'red';
@@ -57,7 +69,6 @@ function initializeSimulation() {
             infected.push(false);
             infection_timers.push(0);
         }
-
     }
 }
 
@@ -70,11 +81,11 @@ function updateCounters() {
             infectedCount++;
         }
     }
-    let immuneCount = immune.filter(imm => imm).length;
+    let recoveredCount = recovered.filter(rec => rec).length;
     let deadCount = dead.filter(d => d).length;
 
     for (let i = 0; i < dots.length; i++) {
-        if (!infected[i] && !immune[i] && !dead[i]) {
+        if (!infected[i] && !recovered[i] && !dead[i]) {
             if (inoculated[i]) {
                 healthyInoculatedCount++;
             } else {
@@ -86,7 +97,7 @@ function updateCounters() {
     document.getElementById('healthy-inoculated-counter').innerText = healthyInoculatedCount;
     document.getElementById('healthy-not-inoculated-counter').innerText = healthyNotInoculatedCount;
     document.getElementById('infected-counter').innerText = infectedCount;
-    document.getElementById('immune-counter').innerText = immuneCount;
+    document.getElementById('recovered-counter').innerText = recoveredCount;
     document.getElementById('dead-counter').innerText = deadCount;
 }
 
@@ -95,6 +106,7 @@ function updateCounters() {
 function draw() {
     background(220);
     updateCounters();
+
     for (let i = 0; i < dots.length; i++) {
         if (!dead[i]) {
             let movement = createVector(random(-1, 1), random(-1, 1));
@@ -116,23 +128,25 @@ function draw() {
                     dots[i].color = 'gray';
                 } else {
                     infected[i] = false;
+                    recovered[i] = true;
                     immune[i] = true;
                     dots[i].color = 'green';
                 }
             }
         }
 
-        if (infected[i] && !dead[i]) {
+        if (!infected[i] && !immune[i] && !dead[i] && !recovered[i]) {
             for (let j = 0; j < dots.length; j++) {
-                if (!infected[j] && !immune[j] && !dead[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
-                    let adjusted_infection_chance = inoculated[j] ? infection_chance * (1 - inoculation_efficacy) : infection_chance;
-                    if (random() < adjusted_infection_chance) {
-                        infected[j] = true;
-                        dots[j].color = 'red';
-                        infection_timers[j] = recovery_time;
+                if (infected[j] && !dead[j] && dist(dots[i].position.x, dots[i].position.y, dots[j].position.x, dots[j].position.y) < infection_distance) {
+                    if (random() < infection_chance) {
+                        infected[i] = true;
+                        dots[i].color = 'red';
+                        infection_timers[i] = recovery_time;
+                        break;
                     }
                 }
             }
         }
     }
 }
+
