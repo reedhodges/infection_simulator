@@ -8,11 +8,9 @@
 </head>
 <body>
     <h1>Infection Simulator</h1>
+    <a href="https://reedhodges.github.io/">https://reedhodges.github.io/</a>
     <p>Adjust the disease parameters to see how the simulation changes.</p>
     <hr>
-    <div id="simulation">
-        <!-- p5.js canvas will go here -->
-    </div>
 
     <table>
         <tr>
@@ -27,8 +25,18 @@
         </tr>
         <tr>
             <td><label for="infection-distance">Infection Distance:</label></td>
-            <td><input type="range" id="infection-distance" name="infection-distance" min="1" max="50" value="10"></td>
+            <td><input type="range" id="infection-distance" name="infection-distance" min="1" max="30" value="15"></td>
             <td><span id="infection-distance-value">15</span></td>
+        </tr>
+        <tr>
+            <td><label for="inoculation-rate">Inoculation Rate:</label></td>
+            <td><input type="range" id="inoculation-rate" name="inoculation-rate" min="0" max="1" step="0.01" value="0.1"></td>
+            <td><span id="inoculation-rate-value">0.1</span></td>
+        </tr>
+        <tr>
+            <td><label for="inoculation-efficacy">Inoculation Efficacy:</label></td>
+            <td><input type="range" id="inoculation-efficacy" name="inoculation-efficacy" min="0" max="1" step="0.01" value="0.5"></td>
+            <td><span id="inoculation-efficacy-value">0.5</span></td>
         </tr>
         <tr>
             <td><label for="mortality-rate">Mortality Rate:</label></td>
@@ -37,8 +45,8 @@
         </tr>
         <tr>
             <td><label for="recovery-time">Recovery Time (frames):</label></td>
-            <td><input type="range" id="recovery-time" name="recovery-time" min="60" max="600" value="300"></td>
-            <td><span id="recovery-time-value">300</span></td>
+            <td><input type="range" id="recovery-time" name="recovery-time" min="60" max="600" value="200"></td>
+            <td><span id="recovery-time-value">200</span></td>
         </tr>
         <tr>
             <td><label for="frame-rate">Simulation Speed (fps):</label></td>
@@ -49,7 +57,31 @@
 
     <button onclick="updateSimulationParameters()">Update Simulation</button>
 
+    <hr>
+
+    <table>
+        <tr>
+            <td>
+                <div id="simulation">
+                    <!-- p5.js canvas will go here -->
+                </div>
+            </td>
+            <td>
+                <div id="counters">
+                    <p style="color:blue;">Healthy, inoculated: <span id="healthy-inoculated-counter">0</span></p>
+                    <p style="color:black">Healthy, not inoculated: <span id="healthy-not-inoculated-counter">0</span></p>
+                    <p style="color:red">Infected: <span id="infected-counter">0</span></p>
+                    <p style="color:green">Recovered: <span id="immune-counter">0</span></p>
+                    <p style="color:gray">Dead: <span id="dead-counter">0</span></p>
+                </div>
+            </td>
+        </tr>
+    </table>    
+
     <script src="{{ url_for('static', filename='js/sketch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+
+
+
 </body>
 </html>

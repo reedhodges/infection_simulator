@@ -5,6 +5,8 @@ function updateSimulationParameters() {
     infection_distance = parseFloat(document.getElementById('infection-distance').value);
     frame_rate = parseInt(document.getElementById('frame-rate').value, 10);
     mortality_rate = parseFloat(document.getElementById('mortality-rate').value);
+    inoculation_rate = parseFloat(document.getElementById('inoculation-rate').value);
+    inoculation_efficacy = parseFloat(document.getElementById('inoculation-efficacy').value);
     resetSimulationState();
     setup();
 }
@@ -12,9 +14,18 @@ function updateSimulationParameters() {
 function resetSimulationState() {
     dots = [];
     infected = [];
+    inoculated = [];
     immune = [];
     dead = [];
     infection_timers = [];
+}
+
+document.getElementById('inoculation-efficacy').oninput = function() {
+    document.getElementById('inoculation-efficacy-value').textContent = this.value;
+}
+
+document.getElementById('inoculation-rate').oninput = function() {
+    document.getElementById('inoculation-rate-value').textContent = this.value;
 }
 
 document.getElementById('mortality-rate').oninput = function() {
