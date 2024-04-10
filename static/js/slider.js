@@ -1,55 +1,32 @@
+// Hhlper function to read and parse values from input elements
+function readValue(id, parseFunc = parseFloat) {
+    return parseFunc(document.getElementById(id).value);
+}
+
+// attaches an oninput event listener to an element that updates the corresponding value display
+function attachValueUpdater(inputId, displayId) {
+    document.getElementById(inputId).oninput = function() {
+        document.getElementById(displayId).textContent = this.value;
+    };
+}
+
 function updateSimulationParameters() {
-    num_dots = parseInt(document.getElementById('num-dots').value, 10);
-    infection_chance = parseFloat(document.getElementById('infection-rate').value);
-    recovery_time = parseInt(document.getElementById('recovery-time').value, 10);
-    infection_distance = parseFloat(document.getElementById('infection-distance').value);
-    frame_rate = parseInt(document.getElementById('frame-rate').value, 10);
-    mortality_rate = parseFloat(document.getElementById('mortality-rate').value);
-    inoculation_rate = parseFloat(document.getElementById('inoculation-rate').value);
-    inoculation_efficacy = parseFloat(document.getElementById('inoculation-efficacy').value);
-    resetSimulationState();
+    num_dots = readValue('num-dots', parseInt);
+    infection_chance = readValue('infection-rate');
+    recovery_time = readValue('recovery-time', parseInt);
+    infection_distance = readValue('infection-distance');
+    frame_rate = readValue('frame-rate', parseInt);
+    mortality_rate = readValue('mortality-rate');
+    inoculation_rate = readValue('inoculation-rate');
+    inoculation_efficacy = readValue('inoculation-efficacy');
     setup();
 }
 
-function resetSimulationState() {
-    dots = [];
-    infected = [];
-    inoculated = [];
-    immune = [];
-    dead = [];
-    infection_timers = [];
-}
-
-document.getElementById('inoculation-efficacy').oninput = function() {
-    document.getElementById('inoculation-efficacy-value').textContent = this.value;
-}
-
-document.getElementById('inoculation-rate').oninput = function() {
-    document.getElementById('inoculation-rate-value').textContent = this.value;
-}
-
-document.getElementById('mortality-rate').oninput = function() {
-    document.getElementById('mortality-rate-value').textContent = this.value;
-}
-
-document.getElementById('frame-rate').oninput = function() {
-    document.getElementById('frame-rate-value').textContent = this.value;
-}
-
-document.getElementById('num-dots').oninput = function() {
-    document.getElementById('num-dots-value').textContent = this.value;
-}
-
-document.getElementById('infection-rate').oninput = function() {
-    document.getElementById('infection-rate-value').textContent = this.value;
-}
-
-
-document.getElementById('recovery-time').oninput = function() {
-    document.getElementById('recovery-time-value').textContent = this.value;
-}
-
-document.getElementById('infection-distance').oninput = function() {
-    document.getElementById('infection-distance-value').textContent = this.value;
-}
-
+attachValueUpdater('inoculation-efficacy', 'inoculation-efficacy-value');
+attachValueUpdater('inoculation-rate', 'inoculation-rate-value');
+attachValueUpdater('mortality-rate', 'mortality-rate-value');
+attachValueUpdater('frame-rate', 'frame-rate-value');
+attachValueUpdater('num-dots', 'num-dots-value');
+attachValueUpdater('infection-rate', 'infection-rate-value');
+attachValueUpdater('recovery-time', 'recovery-time-value');
+attachValueUpdater('infection-distance', 'infection-distance-value');
