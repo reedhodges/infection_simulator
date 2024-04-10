@@ -1,4 +1,4 @@
-// Hhlper function to read and parse values from input elements
+// helper function to read and parse values from input elements
 function readValue(id, parseFunc = parseFloat) {
     return parseFunc(document.getElementById(id).value);
 }
